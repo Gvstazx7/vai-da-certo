@@ -8,20 +8,173 @@
   body {
     margin: 0;
     min-height: 100vh;
-    background: linear-gradient(180deg, #020024, #090979, #00d4ff);
+    background: linear-gradient(135deg, #b30000, #006400);
     display: flex;
     justify-content: center;
     align-items: center;
     font-family: Arial, sans-serif;
     color: white;
-    overflow: hidden;
   }
 
+  /* CONTAINER CENTRAL */
   .container {
+    position: relative;
+    width: 320px;
+    height: 420px;
     text-align: center;
-    animation: fadeIn 1.2s ease;
   }
 
-  @keyframes fadeIn {
-    from { opacity: 0; transform: scale(0.95); }
-    to
+  /* ⭐ ESTRELA */
+  .star {
+    font-size: 48px;
+    color: gold;
+    cursor: pointer;
+    user-select: none;
+    animation: brilho 1.5s infinite alternate;
+  }
+
+  @keyframes brilho {
+    from { transform: scale(1); }
+    to { transform: scale(1.15); }
+  }
+
+  /* 🌲 ÁRVORE */
+  .tree {
+    position: relative;
+    width: 100%;
+    height: 300px;
+    margin-top: 10px;
+  }
+
+  .layer {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+  }
+
+  .layer.one {
+    top: 30px;
+    border-left: 110px solid transparent;
+    border-right: 110px solid transparent;
+    border-bottom: 140px solid #0b6623;
+  }
+
+  .layer.two {
+    top: 80px;
+    border-left: 90px solid transparent;
+    border-right: 90px solid transparent;
+    border-bottom: 120px solid #0e7a2d;
+  }
+
+  .layer.three {
+    top: 120px;
+    border-left: 70px solid transparent;
+    border-right: 70px solid transparent;
+    border-bottom: 100px solid #128c3a;
+  }
+
+  /* 🔴 ENFEITES */
+  .ornament {
+    position: absolute;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+  }
+
+  .red { background: red; }
+  .gold { background: gold; }
+  .blue { background: dodgerblue; }
+  .pink { background: hotpink; }
+
+  .o1 { top: 120px; left: 150px; }
+  .o2 { top: 150px; left: 180px; }
+  .o3 { top: 180px; left: 130px; }
+  .o4 { top: 200px; left: 170px; }
+
+  /* 🪵 TRONCO */
+  .trunk {
+    width: 40px;
+    height: 60px;
+    background: #6b3e26;
+    margin: 0 auto;
+    border-radius: 6px;
+    margin-top: -10px;
+  }
+
+  /* 💌 MENSAGEM */
+  #message {
+    display: none;
+    margin-top: 15px;
+    background: rgba(0,0,0,0.5);
+    padding: 14px;
+    border-radius: 10px;
+    font-size: 18px;
+  }
+
+  /* ⬅️➡️ BOTÕES */
+  .nav-btn {
+    position: fixed;
+    bottom: 20px;
+    padding: 10px 14px;
+    background: rgba(0,0,0,0.6);
+    border-radius: 20px;
+    font-size: 14px;
+    color: white;
+    text-decoration: none;
+    transition: 0.3s;
+  }
+
+  .nav-btn:hover {
+    background: rgba(0,0,0,0.8);
+  }
+
+  .back {
+    left: 20px;
+  }
+
+  .next {
+    right: 20px;
+  }
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+  <div class="star" onclick="showMessage()">★</div>
+
+  <div class="tree">
+    <div class="layer one"></div>
+    <div class="layer two"></div>
+    <div class="layer three"></div>
+
+    <div class="ornament red o1"></div>
+    <div class="ornament gold o2"></div>
+    <div class="ornament blue o3"></div>
+    <div class="ornament pink o4"></div>
+  </div>
+
+  <div class="trunk"></div>
+
+  <div id="message">
+    🎄 Feliz Natal, meu amor ❤️<br>
+    Que esse Natal seja cheio de alegria e amor ✨
+  </div>
+
+</div>
+
+<!-- NAVEGAÇÃO -->
+<a class="nav-btn back" href="memorylane.html">◀ Voltar</a>
+<a class="nav-btn next" href="letter.html">Avançar ▶</a>
+
+<script>
+  function showMessage() {
+    document.getElementById("message").style.display = "block";
+  }
+</script>
+
+</body>
+</html>
