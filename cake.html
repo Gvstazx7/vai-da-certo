@@ -22,74 +22,60 @@ body {
   overflow: hidden;
 }
 
-/* ================= ÁRVORE ================= */
+/* ================= PINHEIRO ================= */
 .tree-container {
   position: relative;
-  width: 300px;
+  width: 260px;
   text-align: center;
 }
 
 /* ESTRELA */
 .star {
-  width: 45px;
-  height: 45px;
+  width: 40px;
+  height: 40px;
   background: gold;
-  margin: 0 auto 5px auto;
+  margin: 0 auto -6px;
   clip-path: polygon(
     50% 0%, 61% 35%, 98% 35%,
     68% 57%, 79% 91%,
     50% 70%, 21% 91%,
     32% 57%, 2% 35%, 39% 35%
   );
+  box-shadow: 0 0 15px gold;
   cursor: pointer;
-  animation: glow 1.5s infinite alternate;
 }
 
-@keyframes glow {
-  from { box-shadow: 0 0 8px gold; }
-  to { box-shadow: 0 0 20px gold; }
-}
-
-/* CAMADAS */
+/* PINHEIRO */
 .tree {
   position: relative;
 }
 
 .layer {
-  position: relative;
-  margin: 0 auto;
-}
-
-.layer1 {
   width: 0;
-  border-left: 140px solid transparent;
-  border-right: 140px solid transparent;
-  border-bottom: 100px solid #0b8f44;
+  height: 0;
+  margin: 0 auto;
+  position: relative;
+  border-left: 130px solid transparent;
+  border-right: 130px solid transparent;
+  border-bottom: 90px solid #0b8f44;
 }
 
-.layer2 {
+.layer.mid {
   margin-top: -40px;
-  border-left: 120px solid transparent;
-  border-right: 120px solid transparent;
-  border-bottom: 90px solid #119655;
+  border-left-width: 110px;
+  border-right-width: 110px;
+  border-bottom-color: #119655;
 }
 
-.layer3 {
+.layer.small {
   margin-top: -40px;
-  border-left: 100px solid transparent;
-  border-right: 100px solid transparent;
-  border-bottom: 80px solid #14b654;
-}
-
-.layer4 {
-  margin-top: -40px;
-  border-left: 80px solid transparent;
-  border-right: 80px solid transparent;
-  border-bottom: 70px solid #19d166;
+  border-left-width: 90px;
+  border-right-width: 90px;
+  border-bottom-color: #14b654;
 }
 
 /* ENFEITES */
-.ornament {
+.ball {
   position: absolute;
   width: 12px;
   height: 12px;
@@ -101,13 +87,25 @@ body {
 .gold { background: gold; }
 .green { background: limegreen; }
 
+/* POSIÇÕES DOS ENFEITES */
+.layer .ball:nth-child(1) { left: 80px; top: 45px; }
+.layer .ball:nth-child(2) { left: 150px; top: 60px; }
+
+.layer.mid .ball:nth-child(1) { left: 90px; top: 50px; }
+.layer.mid .ball:nth-child(2) { left: 145px; top: 65px; }
+
+.layer.small .ball:nth-child(1) {
+  left: 115px;
+  top: 45px;
+}
+
 /* TRONCO */
 .trunk {
   width: 50px;
   height: 45px;
   background: #6b3e26;
-  margin: -5px auto 0 auto;
-  border-radius: 5px;
+  margin: -5px auto 0;
+  border-radius: 6px;
 }
 
 /* ================= POPUP ================= */
@@ -121,7 +119,7 @@ body {
   border-radius: 20px;
   text-align: center;
   z-index: 10;
-  transition: 0.4s;
+  transition: 0.4s ease;
 }
 
 .popup.show {
@@ -176,26 +174,22 @@ body {
 <body>
 
 <div class="tree-container">
-
   <div class="star" id="star"></div>
 
   <div class="tree">
-    <div class="layer layer1">
-      <div class="ornament red" style="left:-40px; top:50px;"></div>
-      <div class="ornament gold" style="left:30px; top:65px;"></div>
+    <div class="layer">
+      <span class="ball red"></span>
+      <span class="ball gold"></span>
     </div>
 
-    <div class="layer layer2">
-      <div class="ornament blue" style="left:-35px; top:45px;"></div>
-      <div class="ornament green" style="left:25px; top:55px;"></div>
+    <div class="layer mid">
+      <span class="ball blue"></span>
+      <span class="ball green"></span>
     </div>
 
-    <div class="layer layer3">
-      <div class="ornament red" style="left:-25px; top:40px;"></div>
-      <div class="ornament gold" style="left:15px; top:50px;"></div>
+    <div class="layer small">
+      <span class="ball red"></span>
     </div>
-
-    <div class="layer layer4"></div>
 
     <div class="trunk"></div>
   </div>
@@ -214,7 +208,10 @@ body {
 const star = document.getElementById("star");
 const popup = document.getElementById("popup");
 
-star.onclick = () => popup.classList.add("show");
+star.addEventListener("click", () => {
+  popup.classList.add("show");
+});
+
 function closePopup() {
   popup.classList.remove("show");
 }
