@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
+<meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Natal Mágico ❤️</title>
 
 <style>
+/* RESET */
 * {
   margin: 0;
   padding: 0;
@@ -30,37 +31,26 @@ body {
   animation: fall linear infinite;
   z-index: 1;
 }
+@keyframes fall { to { transform: translateY(110vh); } }
 
-@keyframes fall {
-  to {
-    transform: translateY(110vh);
-  }
-}
-
-/* CONTAINER CENTRAL */
-.main-container {
+/* ÁRVORE ESTILIZADA */
+.tree-wrap {
   text-align: center;
-  color: white;
+  position: relative;
   z-index: 5;
 }
 
-/* ÁRVORE */
-.tree-container {
+.tree {
+  display: inline-block;
   position: relative;
-  width: 300px;
-  height: 420px;
-  margin: 0 auto;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
 }
 
 /* ESTRELA */
 .star {
-  width: 40px;
-  height: 40px;
+  width: 48px;
+  height: 48px;
   background: gold;
+  margin: 0 auto;
   clip-path: polygon(
     50% 0%, 61% 35%, 98% 35%,
     68% 57%, 79% 91%,
@@ -68,66 +58,60 @@ body {
     32% 57%, 2% 35%, 39% 35%
   );
   cursor: pointer;
-  animation: glow 1.5s infinite alternate;
-  margin-bottom: -5px;
-  z-index: 10;
+  animation: starGlow 1.5s infinite alternate;
+}
+@keyframes starGlow {
+  from { box-shadow: 0 0 8px gold; }
+  to { box-shadow: 0 0 24px gold; }
 }
 
-@keyframes glow {
-  from { box-shadow: 0 0 6px gold; }
-  to { box-shadow: 0 0 20px gold; }
-}
-
-/* CORPO DA ÁRVORE */
-.tree {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
+/* CAMADAS NÍVEL MAIS SMOOTH */
 .layer {
   width: 0;
   height: 0;
-  border-left: 140px solid transparent;
-  border-right: 140px solid transparent;
-  border-bottom: 95px solid #0b8f44;
-  margin-top: -40px;
+  border-left: 160px solid transparent;
+  border-right: 160px solid transparent;
+  border-bottom: 110px solid #0b8f44;
+  margin-top: -45px;
   position: relative;
 }
+.layer:nth-child(2) {
+  border-left-width: 140px;
+  border-right-width: 140px;
+  border-bottom: 95px solid #119655;
+}
+.layer:nth-child(3) {
+  border-left-width: 120px;
+  border-right-width: 120px;
+  border-bottom: 80px solid #14b654;
+}
+.layer:nth-child(4) {
+  border-left-width: 100px;
+  border-right-width: 100px;
+  border-bottom: 65px solid #19d166;
+}
 
-/* ENFEITES */
-.layer::before,
-.layer::after {
-  content: "";
+/* ENFEITES BOLAS COLORIDAS */
+.ornament {
   position: absolute;
   width: 12px;
   height: 12px;
   border-radius: 50%;
 }
+.orn-red { background: red; }
+.orn-gold { background: gold; }
+.orn-blue { background: #4fc3f7; }
+.orn-green { background: limegreen; }
 
-.layer::before {
-  left: -60px;
-  top: 45px;
-  background: red;
-}
-
-.layer::after {
-  right: -60px;
-  top: 55px;
-  background: gold;
-}
-
-/* LUZES */
+/* LUZES PISCANDO */
 .light {
   position: absolute;
-  width: 7px;
-  height: 7px;
-  background: yellow;
+  width: 8px;
+  height: 8px;
   border-radius: 50%;
+  background: yellow;
   animation: blink 1s infinite alternate;
 }
-
 @keyframes blink {
   from { opacity: 0.3; }
   to { opacity: 1; }
@@ -136,9 +120,10 @@ body {
 /* TRONCO */
 .trunk {
   width: 60px;
-  height: 45px;
+  height: 50px;
   background: #6b3e26;
-  margin-top: -5px;
+  margin: 0 auto;
+  margin-top: -10px;
 }
 
 /* POPUP */
@@ -148,26 +133,17 @@ body {
   left: 50%;
   transform: translate(-50%, -50%) scale(0);
   background: white;
-  color: #333;
   padding: 25px;
   border-radius: 20px;
   text-align: center;
   z-index: 50;
   width: 90%;
-  max-width: 400px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+  max-width: 380px;
   transition: 0.4s ease;
 }
-
 .popup.show {
   transform: translate(-50%, -50%) scale(1);
 }
-
-.popup h2 {
-  color: #c21120;
-  margin-bottom: 15px;
-}
-
 .popup button {
   margin-top: 15px;
   padding: 10px 20px;
@@ -193,83 +169,71 @@ body {
   z-index: 20;
   transition: all 0.3s ease;
 }
-
 #backButton {
   left: 20px;
   background: linear-gradient(45deg, #c21120, #154d06);
 }
-
 #nextButton {
   right: 20px;
   background: linear-gradient(45deg, #ffffff, #e6e6e6);
   color: #c21120;
 }
-
 #nextButton:hover {
   transform: translateY(-4px) scale(1.05);
   box-shadow: 0 8px 25px rgba(255,255,255);
 }
-
 #backButton:hover {
   transform: translateY(-4px) scale(1.05);
 }
-
-/* FOGOS */
-.firework {
-  position: fixed;
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  animation: firework 1.5s forwards;
-  z-index: 40;
-}
-
-@keyframes firework {
-  from {
-    transform: scale(0);
-    opacity: 1;
-    box-shadow: 0 0 0 0 gold;
-  }
-  to {
-    transform: scale(1);
-    opacity: 0;
-    box-shadow:
-      0 0 0 40px rgba(255,255,255,0),
-      0 0 0 80px rgba(255,0,0,0),
-      0 0 0 120px rgba(255,215,0,0);
-  }
-}
 </style>
 </head>
-
 <body>
 
-<div class="main-container">
+<canvas id="fireworks"></canvas>
 
-  <div class="tree-container">
+<!-- NEVE -->
+<script>
+for (let i=0; i<40; i++){
+  const snow = document.createElement("div");
+  snow.className = "snow";
+  snow.innerHTML = "❄";
+  snow.style.left = Math.random()*100+"%";
+  snow.style.animationDuration = `${5 + Math.random()*5}s`;
+  snow.style.fontSize = `${10 + Math.random()*10}px`;
+  document.body.appendChild(snow);
+}
+</script>
+
+<div class="tree-wrap">
+  <h1 style="margin-bottom:15px; color:white;">🎄 Feliz Natal ❤️</h1>
+
+  <div class="tree">
     <div class="star" id="star"></div>
 
-    <div class="tree">
-      <div class="layer"></div>
-      <div class="layer"></div>
-      <div class="layer"></div>
-
-      <!-- LUZES -->
-      <div class="light" style="top:50px; left:120px;"></div>
-      <div class="light" style="top:90px; left:80px;"></div>
-      <div class="light" style="top:90px; left:160px;"></div>
-      <div class="light" style="top:140px; left:100px;"></div>
-      <div class="light" style="top:140px; left:140px;"></div>
-
-      <div class="trunk"></div>
+    <div class="layer">
+      <div class="ornament orn-red" style="left:-50px;top:60px;"></div>
+      <div class="ornament orn-gold" style="left:40px;top:80px;"></div>
     </div>
-  </div>
 
+    <div class="layer">
+      <div class="ornament orn-blue" style="left:-60px;top:60px;"></div>
+      <div class="ornament orn-green" style="left:50px;top:70px;"></div>
+    </div>
+
+    <div class="layer"></div>
+    <div class="layer"></div>
+
+    <div class="light" style="left:100px; top:80px;"></div>
+    <div class="light" style="left:80px; top:120px;"></div>
+    <div class="light" style="left:140px; top:120px;"></div>
+
+    <div class="trunk"></div>
+  </div>
 </div>
 
 <div class="popup" id="popup">
   <h2>✨ Feliz Natal, meu amor ✨</h2>
-  <p>Que nosso amor continue iluminando todos os nossos natais 🎄❤️</p>
+  <p>Que cada ano seja mais mágico 💖</p>
   <button onclick="closePopup()">Fechar</button>
 </div>
 
@@ -277,18 +241,7 @@ body {
 <a href="letter.html" id="nextButton">Avançar ➡</a>
 
 <script>
-/* NEVE */
-for (let i = 0; i < 40; i++) {
-  const snow = document.createElement("div");
-  snow.className = "snow";
-  snow.innerHTML = "❄";
-  snow.style.left = Math.random() * window.innerWidth + "px";
-  snow.style.fontSize = 10 + Math.random() * 10 + "px";
-  snow.style.animationDuration = 5 + Math.random() * 5 + "s";
-  document.body.appendChild(snow);
-}
-
-/* POPUP + FOGOS */
+// POPUP + FOGOS
 const star = document.getElementById("star");
 const popup = document.getElementById("popup");
 
@@ -301,17 +254,21 @@ function closePopup() {
   popup.classList.remove("show");
 }
 
+// FOGOS
+const canvas = document.getElementById("fireworks");
+const ctx = canvas.getContext("2d");
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
 function createFireworks() {
-  for (let i = 0; i < 8; i++) {
-    setTimeout(() => {
-      const fw = document.createElement("div");
-      fw.className = "firework";
-      fw.style.left = 20 + Math.random() * 60 + "%";
-      fw.style.top = 20 + Math.random() * 50 + "%";
-      fw.style.background = "gold";
-      document.body.appendChild(fw);
-      setTimeout(() => fw.remove(), 1500);
-    }, i * 200);
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  for (let i = 0; i < 60; i++) {
+    const x = Math.random() * canvas.width;
+    const y = Math.random() * canvas.height / 2;
+    ctx.beginPath();
+    ctx.arc(x, y, 3, 0, Math.PI*2);
+    ctx.fillStyle = `hsl(${Math.random()*360},100%,60%)`;
+    ctx.fill();
   }
 }
 </script>
