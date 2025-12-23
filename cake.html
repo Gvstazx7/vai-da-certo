@@ -13,7 +13,6 @@
   font-family: Arial, sans-serif;
 }
 
-/* FUNDO */
 body {
   min-height: 100vh;
   background: linear-gradient(180deg, #0b3d2e, #7b1113);
@@ -36,8 +35,8 @@ body {
   position: absolute;
   top: -18px;
   left: 50%;
-  width: 26px;
-  height: 26px;
+  width: 28px;
+  height: 28px;
   background: gold;
   transform: translateX(-50%);
   cursor: pointer;
@@ -46,7 +45,7 @@ body {
     79% 91%, 50% 70%, 21% 91%, 32% 57%,
     2% 35%, 39% 35%
   );
-  box-shadow: 0 0 15px gold;
+  box-shadow: 0 0 18px gold;
 }
 
 .layer {
@@ -74,8 +73,8 @@ body {
 
 /* LUZES */
 .light {
-  width: 8px;
-  height: 8px;
+  width: 9px;
+  height: 9px;
   border-radius: 50%;
   position: absolute;
   animation: blink 1.4s infinite alternate;
@@ -83,7 +82,7 @@ body {
 
 @keyframes blink {
   from { opacity: .4; }
-  to { opacity: 1; box-shadow: 0 0 8px currentColor; }
+  to { opacity: 1; box-shadow: 0 0 10px currentColor; }
 }
 
 /* POPUP */
@@ -115,7 +114,7 @@ body {
   cursor: pointer;
 }
 
-/* BOTÕES DE NAVEGAÇÃO */
+/* BOTÕES */
 .navigation-buttons {
   position: fixed;
   bottom: 20px;
@@ -134,51 +133,14 @@ body {
   border-radius: 30px;
 }
 
-/* ESTILO QUE VOCÊ PEDIU */
-#nextButton {
-  background: linear-gradient(45deg, #c21120, #154d06);
-  font-size: 1.1rem;
-  padding: 1rem 2rem;
-  position: relative;
-  overflow: hidden;
-  animation: pulse 2s infinite;
-}
-
-#nextButton::before {
-  content: "";
-  position: absolute;
-  top: -50%;
-  left: -50%;
-  width: 200%;
-  height: 200%;
-  background: rgba(255, 255, 255, 0.4);
-  transform: rotate(45deg);
-  animation: shine 3s infinite;
-}
-
-#nextButton:hover {
-  transform: translateY(-4px) scale(1.05);
-  box-shadow: 0 8px 25px rgba(255, 255, 255);
-}
-
+#nextButton,
 #backButton {
   background: linear-gradient(45deg, #c21120, #154d06);
-  padding: 1rem 2rem;
   font-size: 1.1rem;
+  padding: 1rem 2rem;
 }
 
-@keyframes pulse {
-  0% { transform: scale(1); }
-  50% { transform: scale(1.05); }
-  100% { transform: scale(1); }
-}
-
-@keyframes shine {
-  0% { transform: translateX(-100%) rotate(45deg); }
-  100% { transform: translateX(100%) rotate(45deg); }
-}
-
-/* NEVE + ESTRELAS */
+/* ENFEITES */
 .snow, .starfall {
   position: fixed;
   top: -10px;
@@ -187,17 +149,21 @@ body {
 }
 
 .snow {
-  width: 6px;
-  height: 6px;
+  width: 10px;
+  height: 10px;
   background: white;
   border-radius: 50%;
 }
 
 .starfall {
-  width: 8px;
-  height: 8px;
+  width: 14px;
+  height: 14px;
   background: gold;
-  clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+  clip-path: polygon(
+    50% 0%, 61% 35%, 98% 35%, 68% 57%,
+    79% 91%, 50% 70%, 21% 91%, 32% 57%,
+    2% 35%, 39% 35%
+  );
 }
 
 @keyframes fall {
@@ -236,14 +202,14 @@ body {
   <div class="popup-content">
     <h2>Feliz Natal, meu amor ❤️</h2>
     <p id="contador"></p>
-    <p>Que esse seja apenas mais de muitos natais juntos 🎄✨</p>
+    <p>Que esse seja apenas um de muitos natais juntos 🎄✨</p>
     <button onclick="fecharPopup()">Fechar</button>
   </div>
 </div>
 
 <div class="navigation-buttons">
   <button id="backButton" onclick="window.location.href='memorylane.html'">⬅ Voltar</button>
-  <button id="nextButton" onclick="window.location.href='letter.html'">Avançar ➡</button>
+  <button id="nextButton" onclick="window.location.href='proxima.html'">Avançar ➡</button>
 </div>
 
 <script>
@@ -255,13 +221,14 @@ function fecharPopup() {
   document.getElementById("popup").style.display = "none";
 }
 
-/* CONTADOR */
-const inicio = new Date("2025-05-2025"); // ALTERE A DATA
+/* CONTADOR — CORRIGIDO (SEM NaN) */
+const inicio = new Date(2025, 5, 10); // ANO, MÊS (0 = jan), DIA
 const contador = document.getElementById("contador");
 
 function atualizarContador() {
   const agora = new Date();
-  const dias = Math.floor((agora - inicio) / (1000 * 60 * 60 * 24));
+  const diff = agora.getTime() - inicio.getTime();
+  const dias = Math.floor(diff / (1000 * 60 * 60 * 24));
   contador.innerHTML = `Estamos juntos há <strong>${dias}</strong> dias 💖`;
 }
 atualizarContador();
@@ -273,8 +240,8 @@ setInterval(() => {
   el.style.left = Math.random() * 100 + "vw";
   el.style.animationDuration = 4 + Math.random() * 4 + "s";
   document.body.appendChild(el);
-  setTimeout(() => el.remove(), 8000);
-}, 300);
+  setTimeout(() => el.remove(), 9000);
+}, 280);
 </script>
 
 </body>
