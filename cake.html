@@ -6,26 +6,32 @@
 <title>Nosso Natal 🎄</title>
 
 <style>
-/* ===== FUNDO (igual estilo anterior) ===== */
-body {
+* {
   margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
+
+/* FUNDO */
+body {
   min-height: 100vh;
   background: linear-gradient(180deg, #0b3d2e, #7b1113);
   display: flex;
   justify-content: center;
   align-items: center;
-  font-family: Arial, sans-serif;
   overflow-x: hidden;
+  color: #fff;
 }
 
-/* ===== ÁRVORE ===== */
+/* ÁRVORE */
 .tree {
   position: relative;
   width: 220px;
   height: 330px;
+  z-index: 2;
 }
 
-/* ESTRELA */
 .star {
   position: absolute;
   top: -18px;
@@ -36,21 +42,13 @@ body {
   transform: translateX(-50%);
   cursor: pointer;
   clip-path: polygon(
-    50% 0%,
-    61% 35%,
-    98% 35%,
-    68% 57%,
-    79% 91%,
-    50% 70%,
-    21% 91%,
-    32% 57%,
-    2% 35%,
-    39% 35%
+    50% 0%, 61% 35%, 98% 35%, 68% 57%,
+    79% 91%, 50% 70%, 21% 91%, 32% 57%,
+    2% 35%, 39% 35%
   );
   box-shadow: 0 0 15px gold;
 }
 
-/* CAMADAS DO PINHEIRO */
 .layer {
   position: absolute;
   left: 50%;
@@ -63,7 +61,6 @@ body {
 .layer2 { top: 75px; width: 180px; height: 100px; }
 .layer3 { top: 150px; width: 220px; height: 120px; }
 
-/* TRONCO */
 .trunk {
   position: absolute;
   bottom: 0;
@@ -75,7 +72,7 @@ body {
   border-radius: 6px;
 }
 
-/* ENFEITES */
+/* LUZES */
 .light {
   width: 8px;
   height: 8px;
@@ -89,7 +86,7 @@ body {
   to { opacity: 1; box-shadow: 0 0 8px currentColor; }
 }
 
-/* ===== POP-UP ===== */
+/* POPUP */
 .popup {
   position: fixed;
   inset: 0;
@@ -97,21 +94,15 @@ body {
   display: none;
   justify-content: center;
   align-items: center;
-  z-index: 100;
+  z-index: 10;
 }
 
 .popup-content {
   background: #111;
-  color: #fff;
   padding: 22px;
   border-radius: 18px;
   text-align: center;
-  width: 90%;
   max-width: 340px;
-}
-
-.popup-content h2 {
-  margin-bottom: 10px;
 }
 
 .popup-content button {
@@ -119,16 +110,104 @@ body {
   padding: 8px 18px;
   border-radius: 20px;
   border: none;
-  cursor: pointer;
   background: #ff4d6d;
   color: #fff;
+  cursor: pointer;
+}
+
+/* BOTÕES DE NAVEGAÇÃO */
+.navigation-buttons {
+  position: fixed;
+  bottom: 20px;
+  left: 0;
+  width: 100%;
+  padding: 0 20px;
+  display: flex;
+  justify-content: space-between;
+  z-index: 5;
+}
+
+.navigation-buttons button {
+  border: none;
+  color: white;
+  cursor: pointer;
+  border-radius: 30px;
+}
+
+/* ESTILO QUE VOCÊ PEDIU */
+#nextButton {
+  background: linear-gradient(45deg, #c21120, #154d06);
+  font-size: 1.1rem;
+  padding: 1rem 2rem;
+  position: relative;
+  overflow: hidden;
+  animation: pulse 2s infinite;
+}
+
+#nextButton::before {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: rgba(255, 255, 255, 0.4);
+  transform: rotate(45deg);
+  animation: shine 3s infinite;
+}
+
+#nextButton:hover {
+  transform: translateY(-4px) scale(1.05);
+  box-shadow: 0 8px 25px rgba(255, 255, 255);
+}
+
+#backButton {
+  background: linear-gradient(45deg, #c21120, #154d06);
+  padding: 1rem 2rem;
+  font-size: 1.1rem;
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+@keyframes shine {
+  0% { transform: translateX(-100%) rotate(45deg); }
+  100% { transform: translateX(100%) rotate(45deg); }
+}
+
+/* NEVE + ESTRELAS */
+.snow, .starfall {
+  position: fixed;
+  top: -10px;
+  animation: fall linear infinite;
+  z-index: 1;
+}
+
+.snow {
+  width: 6px;
+  height: 6px;
+  background: white;
+  border-radius: 50%;
+}
+
+.starfall {
+  width: 8px;
+  height: 8px;
+  background: gold;
+  clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+}
+
+@keyframes fall {
+  to { transform: translateY(110vh); }
 }
 </style>
 </head>
 
 <body>
 
-<!-- ÁRVORE -->
 <div class="tree">
   <div class="star" onclick="abrirPopup()"></div>
 
@@ -153,38 +232,49 @@ body {
   <div class="trunk"></div>
 </div>
 
-<!-- POP-UP -->
 <div class="popup" id="popup">
   <div class="popup-content">
     <h2>Feliz Natal, meu amor ❤️</h2>
     <p id="contador"></p>
-    <p>Que esse seja apenas um de muitos natais juntos 🎄✨</p>
+    <p>Que esse seja apenas mais de muitos natais juntos 🎄✨</p>
     <button onclick="fecharPopup()">Fechar</button>
   </div>
 </div>
 
+<div class="navigation-buttons">
+  <button id="backButton" onclick="window.location.href='memorylane.html'">⬅ Voltar</button>
+  <button id="nextButton" onclick="window.location.href='letter.html'">Avançar ➡</button>
+</div>
+
 <script>
-/* POP-UP */
+/* POPUP */
 function abrirPopup() {
   document.getElementById("popup").style.display = "flex";
 }
-
 function fecharPopup() {
   document.getElementById("popup").style.display = "none";
 }
 
 /* CONTADOR */
-const inicio = new Date("2025-05-10"); // ALTERE A DATA AQUI
+const inicio = new Date("2025-05-2025"); // ALTERE A DATA
+const contador = document.getElementById("contador");
 
 function atualizarContador() {
   const agora = new Date();
-  const diff = agora - inicio;
-  const dias = Math.floor(diff / (1000 * 60 * 60 * 24));
-  document.getElementById("contador").innerHTML =
-    `Estamos juntos há <strong>${dias}</strong> dias 💖`;
+  const dias = Math.floor((agora - inicio) / (1000 * 60 * 60 * 24));
+  contador.innerHTML = `Estamos juntos há <strong>${dias}</strong> dias 💖`;
 }
-
 atualizarContador();
+
+/* NEVE + ESTRELAS */
+setInterval(() => {
+  const el = document.createElement("div");
+  el.className = Math.random() > 0.5 ? "snow" : "starfall";
+  el.style.left = Math.random() * 100 + "vw";
+  el.style.animationDuration = 4 + Math.random() * 4 + "s";
+  document.body.appendChild(el);
+  setTimeout(() => el.remove(), 8000);
+}, 300);
 </script>
 
 </body>
