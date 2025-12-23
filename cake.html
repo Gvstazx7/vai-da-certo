@@ -22,6 +22,14 @@ body {
   overflow: hidden;
 }
 
+/* CANVAS FOGOS */
+#fireworks {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+
 /* NEVE */
 .snow {
   position: fixed;
@@ -29,17 +37,19 @@ body {
   color: white;
   animation: fall linear infinite;
   pointer-events: none;
+  z-index: 1;
 }
 
 @keyframes fall {
   to { transform: translateY(110vh); }
 }
 
-/* CONTAINER */
+/* CONTAINER CENTRAL */
 .container {
+  position: relative;
+  z-index: 2;
   text-align: center;
   color: white;
-  z-index: 2;
 }
 
 h1 {
@@ -54,12 +64,12 @@ h1 {
   margin: 0 auto;
 }
 
-/* ESTRELA */
+/* ESTRELA (COLADA NA ÁRVORE) */
 .star {
   position: absolute;
   top: 0;
   left: 50%;
-  transform: translateX(-50%);
+  transform: translate(-50%, -60%);
   width: 40px;
   height: 40px;
   background: gold;
@@ -132,28 +142,6 @@ h1 {
   margin: 0 auto;
 }
 
-/* BOTÕES (IGUAL MEMORYLANE) */
-.nav-btn {
-  position: fixed;
-  bottom: 20px;
-  padding: 12px 24px;
-  background: rgba(255,255,255,0.9);
-  color: #b30000;
-  border-radius: 30px;
-  text-decoration: none;
-  font-weight: 600;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.2);
-  transition: all 0.3s ease;
-}
-
-.nav-btn:hover {
-  transform: translateY(-3px);
-  background: gold;
-}
-
-.back { left: 20px; }
-.next { right: 20px; }
-
 /* POPUP */
 .modal {
   position: fixed;
@@ -189,6 +177,29 @@ h1 {
   border-radius: 20px;
   cursor: pointer;
 }
+
+/* BOTÕES (TEMPORÁRIO – VAMOS SUBSTITUIR PELO MEMORYLANE) */
+.nav-btn {
+  position: fixed;
+  bottom: 20px;
+  padding: 12px 24px;
+  background: rgba(255,255,255,0.9);
+  color: #b30000;
+  border-radius: 30px;
+  text-decoration: none;
+  font-weight: 600;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+  transition: all 0.3s ease;
+  z-index: 5;
+}
+
+.nav-btn:hover {
+  transform: translateY(-3px);
+  background: gold;
+}
+
+.back { left: 20px; }
+.next { right: 20px; }
 </style>
 </head>
 
@@ -249,7 +260,7 @@ for (let i = 0; i < 40; i++) {
   document.body.appendChild(snow);
 }
 
-/* MODAL + FOGOS */
+/* POPUP + FOGOS */
 const star = document.getElementById("star");
 const modal = document.getElementById("modal");
 
@@ -269,15 +280,15 @@ canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
 function launchFireworks() {
-  for (let i = 0; i < 50; i++) {
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  for (let i = 0; i < 60; i++) {
     const x = Math.random() * canvas.width;
     const y = Math.random() * canvas.height / 2;
     ctx.beginPath();
-    ctx.arc(x, y, 2, 0, Math.PI * 2);
+    ctx.arc(x, y, 2.5, 0, Math.PI * 2);
     ctx.fillStyle = `hsl(${Math.random()*360},100%,60%)`;
     ctx.fill();
   }
-  setTimeout(() => ctx.clearRect(0,0,canvas.width,canvas.height), 500);
 }
 </script>
 
