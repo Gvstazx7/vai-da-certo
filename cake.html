@@ -27,16 +27,15 @@ body {
   position: fixed;
   top: -10px;
   color: white;
-  font-size: 14px;
   animation: fall linear infinite;
+  pointer-events: none;
 }
 
 @keyframes fall {
-  to {
-    transform: translateY(110vh);
-  }
+  to { transform: translateY(110vh); }
 }
 
+/* CONTAINER */
 .container {
   text-align: center;
   color: white;
@@ -51,18 +50,18 @@ h1 {
 .tree-container {
   position: relative;
   width: 260px;
-  height: 360px;
+  height: 380px;
   margin: 0 auto;
 }
 
 /* ESTRELA */
 .star {
   position: absolute;
-  top: 5px;
+  top: 0;
   left: 50%;
   transform: translateX(-50%);
-  width: 35px;
-  height: 35px;
+  width: 40px;
+  height: 40px;
   background: gold;
   clip-path: polygon(
     50% 0%, 61% 35%, 98% 35%,
@@ -77,7 +76,7 @@ h1 {
 
 @keyframes glow {
   from { box-shadow: 0 0 5px gold; }
-  to { box-shadow: 0 0 20px gold; }
+  to { box-shadow: 0 0 25px gold; }
 }
 
 /* CORPO DA ÁRVORE */
@@ -93,41 +92,30 @@ h1 {
   height: 0;
   border-left: 120px solid transparent;
   border-right: 120px solid transparent;
-  border-bottom: 85px solid #0b8f44;
-  margin-top: -35px;
+  border-bottom: 90px solid #0b8f44;
+  margin-top: -40px;
   position: relative;
 }
 
 /* ENFEITES */
-.layer::before,
-.layer::after {
-  content: "";
+.ornament {
   position: absolute;
   width: 10px;
   height: 10px;
-  background: red;
   border-radius: 50%;
-}
-
-.layer::before {
-  left: -40px;
-  top: 35px;
-  background: gold;
-}
-
-.layer::after {
-  right: -40px;
-  top: 50px;
   background: red;
 }
 
-/* LUZINHAS */
+.ornament.gold { background: gold; }
+.ornament.blue { background: #4fc3f7; }
+
+/* LUZES */
 .light {
   position: absolute;
   width: 6px;
   height: 6px;
-  border-radius: 50%;
   background: yellow;
+  border-radius: 50%;
   animation: blink 1s infinite alternate;
 }
 
@@ -139,48 +127,74 @@ h1 {
 /* TRONCO */
 .trunk {
   width: 50px;
-  height: 40px;
+  height: 45px;
   background: #6b3e26;
   margin: 0 auto;
 }
 
-/* MENSAGEM */
-#wishMessage {
-  margin-top: 20px;
-  font-size: 1.2em;
-  display: none;
-  animation: fadeIn 1s forwards;
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-/* BOTÕES */
+/* BOTÕES (IGUAL MEMORYLANE) */
 .nav-btn {
   position: fixed;
   bottom: 20px;
-  padding: 10px 20px;
-  background: white;
+  padding: 12px 24px;
+  background: rgba(255,255,255,0.9);
   color: #b30000;
   border-radius: 30px;
   text-decoration: none;
-  font-weight: bold;
-  transition: 0.3s;
+  font-weight: 600;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+  transition: all 0.3s ease;
 }
 
 .nav-btn:hover {
+  transform: translateY(-3px);
   background: gold;
 }
 
 .back { left: 20px; }
 .next { right: 20px; }
 
+/* POPUP */
+.modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+}
+
+.modal-content {
+  background: white;
+  color: #b30000;
+  padding: 25px;
+  border-radius: 15px;
+  max-width: 300px;
+  text-align: center;
+  animation: pop 0.4s ease;
+}
+
+@keyframes pop {
+  from { transform: scale(0.7); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+.modal button {
+  margin-top: 15px;
+  padding: 10px 20px;
+  border: none;
+  background: #b30000;
+  color: white;
+  border-radius: 20px;
+  cursor: pointer;
+}
 </style>
 </head>
 
 <body>
+
+<canvas id="fireworks"></canvas>
 
 <div class="container">
   <h1>🎄 Feliz Natal, meu amor ❤️</h1>
@@ -189,23 +203,34 @@ h1 {
     <div class="star" id="star"></div>
 
     <div class="tree">
-      <div class="layer"></div>
-      <div class="layer"></div>
-      <div class="layer"></div>
+      <div class="layer">
+        <div class="ornament gold" style="top:40px; left:-30px"></div>
+        <div class="ornament blue" style="top:50px; left:30px"></div>
+      </div>
+      <div class="layer">
+        <div class="ornament" style="top:50px; left:-50px"></div>
+        <div class="ornament gold" style="top:60px; left:50px"></div>
+      </div>
+      <div class="layer">
+        <div class="ornament blue" style="top:60px; left:-70px"></div>
+        <div class="ornament" style="top:70px; left:70px"></div>
+      </div>
 
-      <!-- LUZES -->
-      <div class="light" style="top:40px; left:110px;"></div>
-      <div class="light" style="top:80px; left:70px;"></div>
-      <div class="light" style="top:80px; left:150px;"></div>
-      <div class="light" style="top:120px; left:90px;"></div>
-      <div class="light" style="top:120px; left:130px;"></div>
+      <div class="light" style="top:60px; left:110px"></div>
+      <div class="light" style="top:100px; left:80px"></div>
+      <div class="light" style="top:100px; left:140px"></div>
 
       <div class="trunk"></div>
     </div>
   </div>
+</div>
 
-  <div id="wishMessage">
-    ✨ Que nosso amor continue brilhando mais forte a cada Natal ✨
+<!-- POPUP -->
+<div class="modal" id="modal">
+  <div class="modal-content">
+    <h3>✨ Meu desejo ✨</h3>
+    <p>Que nosso amor continue crescendo e brilhando mais forte a cada Natal ❤️</p>
+    <button onclick="closeModal()">Fechar</button>
   </div>
 </div>
 
@@ -213,15 +238,6 @@ h1 {
 <a href="letter.html" class="nav-btn next">Avançar ➡</a>
 
 <script>
-/* CLIQUE NA ESTRELA */
-const star = document.getElementById("star");
-const message = document.getElementById("wishMessage");
-
-star.addEventListener("click", () => {
-  star.style.opacity = "0.5";
-  message.style.display = "block";
-});
-
 /* NEVE */
 for (let i = 0; i < 40; i++) {
   const snow = document.createElement("div");
@@ -231,6 +247,37 @@ for (let i = 0; i < 40; i++) {
   snow.style.animationDuration = 5 + Math.random() * 5 + "s";
   snow.style.fontSize = 10 + Math.random() * 10 + "px";
   document.body.appendChild(snow);
+}
+
+/* MODAL + FOGOS */
+const star = document.getElementById("star");
+const modal = document.getElementById("modal");
+
+star.addEventListener("click", () => {
+  modal.style.display = "flex";
+  launchFireworks();
+});
+
+function closeModal() {
+  modal.style.display = "none";
+}
+
+/* FOGOS */
+const canvas = document.getElementById("fireworks");
+const ctx = canvas.getContext("2d");
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+function launchFireworks() {
+  for (let i = 0; i < 50; i++) {
+    const x = Math.random() * canvas.width;
+    const y = Math.random() * canvas.height / 2;
+    ctx.beginPath();
+    ctx.arc(x, y, 2, 0, Math.PI * 2);
+    ctx.fillStyle = `hsl(${Math.random()*360},100%,60%)`;
+    ctx.fill();
+  }
+  setTimeout(() => ctx.clearRect(0,0,canvas.width,canvas.height), 500);
 }
 </script>
 
