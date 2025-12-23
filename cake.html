@@ -221,16 +221,22 @@ function fecharPopup() {
   document.getElementById("popup").style.display = "none";
 }
 
-/* CONTADOR — CORRIGIDO (SEM NaN) */
-const inicio = new Date(2025, 05, 10); // ANO, MÊS (0 = jan), DIA
+const inicio = new Date(2025, 4, 10); // 05/10/2025 (DD/MM)
 const contador = document.getElementById("contador");
 
 function atualizarContador() {
   const agora = new Date();
+
+  // zera horas pra evitar erro de fuso
+  inicio.setHours(0,0,0,0);
+  agora.setHours(0,0,0,0);
+
   const diff = agora.getTime() - inicio.getTime();
   const dias = Math.floor(diff / (1000 * 60 * 60 * 24));
+
   contador.innerHTML = `Estamos juntos há <strong>${dias}</strong> dias 💖`;
 }
+
 atualizarContador();
 
 /* NEVE + ESTRELAS */
