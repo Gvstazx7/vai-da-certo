@@ -1,12 +1,11 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Feliz Natal ❤️</title>
 
 <style>
-/* RESET */
 * {
   margin: 0;
   padding: 0;
@@ -14,7 +13,6 @@
   font-family: 'Poppins', sans-serif;
 }
 
-/* FUNDO */
 body {
   min-height: 100vh;
   background: linear-gradient(180deg, #0f6b3d, #b30000);
@@ -24,13 +22,27 @@ body {
   overflow: hidden;
 }
 
-/* CONTAINER */
+/* NEVE */
+.snow {
+  position: fixed;
+  top: -10px;
+  color: white;
+  font-size: 14px;
+  animation: fall linear infinite;
+}
+
+@keyframes fall {
+  to {
+    transform: translateY(110vh);
+  }
+}
+
 .container {
   text-align: center;
   color: white;
+  z-index: 2;
 }
 
-/* TÍTULO */
 h1 {
   margin-bottom: 20px;
 }
@@ -46,11 +58,11 @@ h1 {
 /* ESTRELA */
 .star {
   position: absolute;
-  top: -10px;
+  top: 5px;
   left: 50%;
   transform: translateX(-50%);
-  width: 40px;
-  height: 40px;
+  width: 35px;
+  height: 35px;
   background: gold;
   clip-path: polygon(
     50% 0%, 61% 35%, 98% 35%,
@@ -68,7 +80,7 @@ h1 {
   to { box-shadow: 0 0 20px gold; }
 }
 
-/* ÁRVORE CORPO */
+/* CORPO DA ÁRVORE */
 .tree {
   position: absolute;
   bottom: 40px;
@@ -79,10 +91,49 @@ h1 {
 .layer {
   width: 0;
   height: 0;
-  border-left: 130px solid transparent;
-  border-right: 130px solid transparent;
-  border-bottom: 90px solid #0b8f44;
-  margin-top: -30px;
+  border-left: 120px solid transparent;
+  border-right: 120px solid transparent;
+  border-bottom: 85px solid #0b8f44;
+  margin-top: -35px;
+  position: relative;
+}
+
+/* ENFEITES */
+.layer::before,
+.layer::after {
+  content: "";
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background: red;
+  border-radius: 50%;
+}
+
+.layer::before {
+  left: -40px;
+  top: 35px;
+  background: gold;
+}
+
+.layer::after {
+  right: -40px;
+  top: 50px;
+  background: red;
+}
+
+/* LUZINHAS */
+.light {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: yellow;
+  animation: blink 1s infinite alternate;
+}
+
+@keyframes blink {
+  from { opacity: 0.3; }
+  to { opacity: 1; }
 }
 
 /* TRONCO */
@@ -111,7 +162,7 @@ h1 {
   position: fixed;
   bottom: 20px;
   padding: 10px 20px;
-  background: #ffffff;
+  background: white;
   color: #b30000;
   border-radius: 30px;
   text-decoration: none;
@@ -123,13 +174,9 @@ h1 {
   background: gold;
 }
 
-.back {
-  left: 20px;
-}
+.back { left: 20px; }
+.next { right: 20px; }
 
-.next {
-  right: 20px;
-}
 </style>
 </head>
 
@@ -145,6 +192,14 @@ h1 {
       <div class="layer"></div>
       <div class="layer"></div>
       <div class="layer"></div>
+
+      <!-- LUZES -->
+      <div class="light" style="top:40px; left:110px;"></div>
+      <div class="light" style="top:80px; left:70px;"></div>
+      <div class="light" style="top:80px; left:150px;"></div>
+      <div class="light" style="top:120px; left:90px;"></div>
+      <div class="light" style="top:120px; left:130px;"></div>
+
       <div class="trunk"></div>
     </div>
   </div>
@@ -154,19 +209,29 @@ h1 {
   </div>
 </div>
 
-<!-- BOTÕES -->
 <a href="memorylane.html" class="nav-btn back">⬅ Voltar</a>
-<a href="nextpage.html" class="nav-btn next">Avançar ➡</a>
+<a href="letter.html" class="nav-btn next">Avançar ➡</a>
 
 <script>
+/* CLIQUE NA ESTRELA */
 const star = document.getElementById("star");
 const message = document.getElementById("wishMessage");
 
 star.addEventListener("click", () => {
-  star.style.animation = "none";
   star.style.opacity = "0.5";
   message.style.display = "block";
 });
+
+/* NEVE */
+for (let i = 0; i < 40; i++) {
+  const snow = document.createElement("div");
+  snow.className = "snow";
+  snow.innerHTML = "❄";
+  snow.style.left = Math.random() * window.innerWidth + "px";
+  snow.style.animationDuration = 5 + Math.random() * 5 + "s";
+  snow.style.fontSize = 10 + Math.random() * 10 + "px";
+  document.body.appendChild(snow);
+}
 </script>
 
 </body>
