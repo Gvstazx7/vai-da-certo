@@ -7,44 +7,86 @@
 
 <style>
 * {
-  box-sizing: border-box;
   margin: 0;
   padding: 0;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', sans-serif;
 }
 
 body {
   min-height: 100vh;
-  background: radial-gradient(circle at top, #1e1e2f, #0b0b14);
+  background: linear-gradient(180deg, #0f2027, #203a43, #2c5364);
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
-  color: white;
-  font-family: 'Segoe UI', sans-serif;
+  color: #fff;
   overflow-x: hidden;
 }
 
-/* TEXTO */
-h1 {
-  margin-bottom: 10px;
+/* ===== POPUP ===== */
+.popup {
+  background: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(6px);
+  border-radius: 20px;
+  padding: 25px 20px 30px;
+  width: 90%;
+  max-width: 360px;
   text-align: center;
+  box-shadow: 0 0 30px rgba(0,0,0,.6);
+  position: relative;
+}
+
+/* BOTÕES */
+.controls {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+button {
+  background: #ff4d6d;
+  border: none;
+  color: white;
+  padding: 10px 16px;
+  border-radius: 25px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+button:hover {
+  background: #ff2f55;
+}
+
+/* ===== PÁGINAS ===== */
+.page {
+  display: none;
+}
+
+.page.active {
+  display: block;
+}
+
+/* ===== TEXTO ===== */
+h1 {
+  font-size: 1.4rem;
+  margin-bottom: 10px;
 }
 
 p {
-  margin-bottom: 20px;
-  text-align: center;
+  font-size: 0.95rem;
   opacity: 0.9;
 }
 
-/* CONTADOR */
+/* ===== CONTADOR ===== */
 #contador {
-  font-size: 1.1rem;
-  margin-bottom: 30px;
-  color: #ffce54;
+  margin-top: 12px;
+  font-size: 0.95rem;
+  color: #ffd166;
 }
 
-/* ÁRVORE */
+/* ===== ÁRVORE ===== */
 .tree {
+  margin: 25px auto 0;
   position: relative;
   width: 220px;
   height: 320px;
@@ -58,6 +100,7 @@ p {
   width: 20px;
   height: 20px;
   background: gold;
+  transform: translateX(-50%);
   clip-path: polygon(
     50% 0%,
     61% 35%,
@@ -70,12 +113,11 @@ p {
     2% 35%,
     39% 35%
   );
-  transform: translateX(-50%);
   animation: brilho 1.5s infinite alternate;
 }
 
 @keyframes brilho {
-  from { box-shadow: 0 0 5px gold; }
+  from { box-shadow: 0 0 6px gold; }
   to { box-shadow: 0 0 20px gold; }
 }
 
@@ -88,23 +130,9 @@ p {
   clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
 }
 
-.layer-1 {
-  top: 20px;
-  width: 140px;
-  height: 80px;
-}
-
-.layer-2 {
-  top: 80px;
-  width: 180px;
-  height: 100px;
-}
-
-.layer-3 {
-  top: 150px;
-  width: 220px;
-  height: 120px;
-}
+.layer-1 { top: 20px; width: 140px; height: 80px; }
+.layer-2 { top: 80px; width: 180px; height: 100px; }
+.layer-3 { top: 150px; width: 220px; height: 120px; }
 
 /* TRONCO */
 .trunk {
@@ -115,7 +143,7 @@ p {
   height: 50px;
   background: #8e5a2b;
   transform: translateX(-50%);
-  border-radius: 5px;
+  border-radius: 6px;
 }
 
 /* LUZES */
@@ -124,80 +152,99 @@ p {
   height: 8px;
   border-radius: 50%;
   position: absolute;
-  animation: piscar 1.5s infinite alternate;
+  animation: piscar 1.4s infinite alternate;
 }
 
 .layer .light:nth-child(1) { top: 40%; left: 30%; background: #ff4d4d; }
-.layer .light:nth-child(2) { top: 60%; left: 50%; background: #ffce54; animation-delay: .5s; }
+.layer .light:nth-child(2) { top: 60%; left: 50%; background: #ffd166; animation-delay: .5s; }
 .layer .light:nth-child(3) { top: 40%; left: 70%; background: #5dade2; animation-delay: 1s; }
 
 @keyframes piscar {
-  from { opacity: 0.3; }
+  from { opacity: .3; }
   to { opacity: 1; box-shadow: 0 0 10px currentColor; }
-}
-
-/* RESPONSIVO */
-@media (max-width: 480px) {
-  .tree {
-    transform: scale(0.9);
-  }
 }
 </style>
 </head>
 
 <body>
 
-<h1>Feliz Natal, meu amor ❤️</h1>
-<p>Mais um Natal ao seu lado ✨</p>
-<div id="contador"></div>
+<div class="popup">
 
-<div class="tree">
-  <div class="star"></div>
+  <!-- PAGE 1 -->
+  <div class="page active">
+    <h1>Feliz Natal, meu amor ❤️</h1>
+    <p>Você é o melhor presente que a vida me deu.</p>
 
-  <div class="layer layer-1">
-    <div class="light"></div>
-    <div class="light"></div>
-    <div class="light"></div>
+    <div id="contador"></div>
   </div>
 
-  <div class="layer layer-2">
-    <div class="light"></div>
-    <div class="light"></div>
-    <div class="light"></div>
+  <!-- PAGE 2 -->
+  <div class="page">
+    <h1>Nosso Natal 🎄</h1>
+    <p>Que esse seja só um de muitos que ainda vamos viver juntos.</p>
+
+    <div class="tree">
+      <div class="star"></div>
+
+      <div class="layer layer-1">
+        <div class="light"></div><div class="light"></div><div class="light"></div>
+      </div>
+
+      <div class="layer layer-2">
+        <div class="light"></div><div class="light"></div><div class="light"></div>
+      </div>
+
+      <div class="layer layer-3">
+        <div class="light"></div><div class="light"></div><div class="light"></div>
+      </div>
+
+      <div class="trunk"></div>
+    </div>
   </div>
 
-  <div class="layer layer-3">
-    <div class="light"></div>
-    <div class="light"></div>
-    <div class="light"></div>
+  <!-- CONTROLES -->
+  <div class="controls">
+    <button onclick="voltar()">⬅ Voltar</button>
+    <button onclick="avancar()">Avançar ➡</button>
   </div>
 
-  <div class="trunk"></div>
 </div>
 
-<!-- MÚSICA (pode trocar o arquivo depois) -->
-<audio autoplay loop>
-  <source src="music.mp3" type="audio/mpeg">
-</audio>
-
 <script>
-// DATA DO INÍCIO DO RELACIONAMENTO (MUDE AQUI)
-const inicio = new Date("2025-05-10");
+/* CONTADOR */
+const inicio = new Date("2023-01-01"); // MUDE AQUI
 
 function atualizarContador() {
   const agora = new Date();
   const diff = agora - inicio;
-
   const dias = Math.floor(diff / (1000 * 60 * 60 * 24));
-  const horas = Math.floor((diff / (1000 * 60 * 60)) % 24);
-  const minutos = Math.floor((diff / (1000 * 60)) % 60);
-
   document.getElementById("contador").innerHTML =
-    `Estamos juntos há <strong>${dias}</strong> dias, <strong>${horas}</strong> horas e <strong>${minutos}</strong> minutos 💖`;
+    `Estamos juntos há <strong>${dias}</strong> dias 💖`;
+}
+atualizarContador();
+
+/* NAVEGAÇÃO */
+let paginaAtual = 0;
+const paginas = document.querySelectorAll(".page");
+
+function mostrarPagina(i) {
+  paginas.forEach(p => p.classList.remove("active"));
+  paginas[i].classList.add("active");
 }
 
-atualizarContador();
-setInterval(atualizarContador, 60000);
+function avancar() {
+  if (paginaAtual < paginas.length - 1) {
+    paginaAtual++;
+    mostrarPagina(paginaAtual);
+  }
+}
+
+function voltar() {
+  if (paginaAtual > 0) {
+    paginaAtual--;
+    mostrarPagina(paginaAtual);
+  }
+}
 </script>
 
 </body>
